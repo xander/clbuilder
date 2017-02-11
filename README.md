@@ -26,20 +26,21 @@ Example:
 
 type MyPage struct {
 	Template: "my_page.html"
-	Views: [
+	Views: []string{
 		"nav"
-	],
-	Libs:[
+	}
+	Libs:[]string{
 		"jquery.js"
-	],
-	Models:[
+	}
+	Models:[]string{
 		"person"
-	]
-	Builder // embed the builder
+	}
 }
 
-func (sub *SubscriberHome) ServerHTTP(r, w){
+func (mp *MyPage) ServerHTTP(w ResponseWriter, r *Request){
+	var data interface{}	//	data to pass to the template
 
+	Builder.Execute(w, data, mp.Template, mp.Views, mp.Libs, mp.Models)
 }
 ```
 
@@ -48,11 +49,11 @@ func (sub *SubscriberHome) ServerHTTP(r, w){
 <html lang="en">
 	<head>
 	    <title>Dashboard - Ceres HQ</title>
-	    {{printCSS}}
+	    {{PrintCSS}}
 	</head>
 	<body>
 		{{View "nav" .}}
-		{{printJS}}
+		{{PrintJS}}
 	</body>
 </html>
 ```
